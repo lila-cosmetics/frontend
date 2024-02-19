@@ -48,7 +48,7 @@ const UserProvider = ({ Children }) => {
     }
   };
   return (
-    <UserContext.Provider value={{ isLoggedIn, loginUser, user }}>
+    <UserContext.Provider value={{ isLoggedIn, loginUser, user, error }}>
       {Children}
     </UserContext.Provider>
   );
