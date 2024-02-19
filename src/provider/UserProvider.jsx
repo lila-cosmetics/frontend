@@ -1,19 +1,19 @@
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 import { useState } from "react";
-import { userAPI } from "../api/userAPI";
-import { devLog, handleServerErrors } from "../utils/errorUtils";
-import UserContext from "../context/userContext";
+import { userAPI } from "@api/userAPI";
+import { devLog, handleServerErrors } from "@utils/errorUtils";
+import UserContext from "@context/userContext";
 
 /**
  * Renders UserProvider Componenets
  * @returns
  */
-const UserProvider = ({ Children }) => {
+const UserProvider = ({ children }) => {
   //Retrieve user data from localStroage
   const storedUser = JSON.parse(localStorage.getItem("user")) || null;
 
   // State variables for user authentication
-  const [isLoggedIn, setIsLoggedIn] = useState(!!storedUser);
+  const [loggedIn, setLoggedIn] = useState(!!storedUser);
   const [user, setUser] = useState(storedUser);
   const [error, setError] = useState("");
 
@@ -29,12 +29,12 @@ const UserProvider = ({ Children }) => {
 
       // Update state and localStorage on successful login
       setUser(userData);
-      setIsLoggedIn(true);
+      setLoggedIn(true);
       localStorage.setItem("user", JSON.stringify(userData));
     } catch (error) {
       devLog("Errors found");
       devLog(error.response);
-      setIsLoggedIn(false);
+      setLoggedIn(false);
       handleServerErrors(error, setError);
 
       // Handle different error scenarios
@@ -48,15 +48,15 @@ const UserProvider = ({ Children }) => {
     }
   };
   return (
-    <UserContext.Provider value={{ isLoggedIn, loginUser, user, error }}>
-      {Children}
+    <UserContext.Provider value={{ loggedIn, loginUser, user, error }}>
+      {children}
     </UserContext.Provider>
   );
 };
 
 // Define prop types foir the UserProvider component
 UserProvider.propTypes = {
-  // Ensures that children is a valid React node
-  Children: PropType.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
+
 export default UserProvider;

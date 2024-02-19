@@ -1,5 +1,5 @@
 import axios from "axios";
-import { devLog } from "../utils/errorUtils";
+import { devLog } from "@utils/errorUtils";
 
 // Set baseURL
 const baseUrl =
