@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { userAPI } from "@api/userAPI";
+import userAPI from "@api/userAPI";
 import { devLog, handleServerErrors } from "@utils/errorUtils";
 import UserContext from "@context/userContext";
 

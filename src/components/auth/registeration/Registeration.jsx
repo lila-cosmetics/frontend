@@ -1,6 +1,50 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import userAPI from "@api/userAPI";
 
-const Registeration = () => {
+const Registration = () => {
+  const navigate = useNavigate();
+
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+  const handleRegistration = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const data = {
+      firstname: formData.get("firstname"),
+      lastname: formData.get("lastname"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    // Checks if the password with confirm password matches
+    const confirmPassword = formData.get("confirm-password");
+    if (data.password !== confirmPassword) {
+      setPasswordMismatch(true);
+      return;
+    } else {
+      setPasswordMismatch(false);
+    }
+
+    try {
+      const response = await userAPI.post("/users/register", data);
+      console.log(response);
+      // Assuming the response contains a property `success` indicating whether the registration was successful
+      if (response.data.success) {
+        // Registration successful, you can redirect the user to another page
+        navigate("/login"); // Redirect to login page
+      } else {
+        // Handle registration failure, show an error message or take appropriate action
+        console.error("Registration failed:", response.data.error);
+      }
+    } catch (error) {
+      // Handle network errors or server errors
+      console.error("Registration failed:", error.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center h-[72vh]">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-cards dark:border-cards">
@@ -8,13 +52,16 @@ const Registeration = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Create an account
           </h1>
-          <form className="space-y-4 md:space-y-6">
+          <form
+            className="space-y-4 md:space-y-6"
+            onSubmit={handleRegistration}
+          >
             <div>
               <label
-                htmlFor="fullname"
+                htmlFor="firstname"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Your frstname
+                Your firstname
               </label>
               <input
                 type="text"
@@ -92,6 +139,11 @@ const Registeration = () => {
             </div>
 
             {/* Notification if the password doesn't match */}
+            {passwordMismatch && (
+              <p className="text-sm font-light text-red-500 dark:text-red-400">
+                Passwords do not match.
+              </p>
+            )}
 
             <button
               type="submit"
@@ -115,4 +167,4 @@ const Registeration = () => {
   );
 };
 
-export default Registeration;
+export default Registration;
