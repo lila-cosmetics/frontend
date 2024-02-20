@@ -6,9 +6,9 @@ import userAPI from "@api/userAPI";
 import useToast from "@hooks/useToast";
 
 const Registration = () => {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const notify = useToast();
-
   const [passwordMismatch, setPasswordMismatch] = useState(false);
 
   const handleRegistration = async (event) => {
@@ -33,16 +33,14 @@ const Registration = () => {
     }
 
     try {
-      const response = await userAPI.post("/users/register", data);
-      console.log("Response", response.data);
+      await userAPI.post("/users/register", data);
+      setError("");
 
-      if (response.data.success) {
-        notify("Successfully Registered", { type: "success" });
+      notify("Successfully Registered", { type: "success" });
+
+      setTimeout(() => {
         navigate("/login"); // Redirect to login page
-      } else {
-        notify("Registration failed", { type: "error" });
-        console.error("Registration failed:", response.data.error);
-      }
+      }, 5000);
     } catch (error) {
       notify("Registration failed", { type: "error" });
       console.error("Registration failed:", error.message);
