@@ -1,9 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import userAPI from "@api/userAPI";
+import useToast from "@hooks/useToast";
 
 const Registration = () => {
   const navigate = useNavigate();
+  const notify = useToast();
 
   const [passwordMismatch, setPasswordMismatch] = useState(false);
 
@@ -30,17 +34,17 @@ const Registration = () => {
 
     try {
       const response = await userAPI.post("/users/register", data);
-      console.log(response);
-      // Assuming the response contains a property `success` indicating whether the registration was successful
+      console.log("Response", response.data);
+
       if (response.data.success) {
-        // Registration successful, you can redirect the user to another page
+        notify("Successfully Registered", { type: "success" });
         navigate("/login"); // Redirect to login page
       } else {
-        // Handle registration failure, show an error message or take appropriate action
+        notify("Registration failed", { type: "error" });
         console.error("Registration failed:", response.data.error);
       }
     } catch (error) {
-      // Handle network errors or server errors
+      notify("Registration failed", { type: "error" });
       console.error("Registration failed:", error.message);
     }
   };
@@ -147,6 +151,7 @@ const Registration = () => {
 
             <button
               type="submit"
+              onClick={notify}
               className="w-full text-cards bg-button hover:text-button hover:bg-footer focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover-bg-primary-700 dark:focus:ring-primary-800"
             >
               Create an account
@@ -163,6 +168,7 @@ const Registration = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
