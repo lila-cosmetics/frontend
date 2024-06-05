@@ -1,7 +1,9 @@
 
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      home page can contain hero section 
+    </div>
   )
 }
 
