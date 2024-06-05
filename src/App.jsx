@@ -12,6 +12,7 @@ import Login from "../src/Pages/Login";
 import RootLayout from './layouts/RootLayout'
 import Home from './Pages/Home'
 import Cart from './Pages/Cart'
+import ProductItem from './components/ProductItem'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route index element={<Home/>}/>
       <Route path="/cart" element={<Cart/>} />
       <Route path="/login" element={<Login/>} />
+      <Route path="/products/:id" element={<ProductItem />} />
     </Route>
   )
 );
