@@ -1,11 +1,11 @@
-import img1 from '../src/assets/images/lipstick.jpg'
-import img2 from './assets/images/lipstickset.jpg'
-import img3 from './assets/images/eyeshadow1.jpg'
-import img4 from './assets/images/antiage.jpg'
-import img5 from './assets/images/shampoo.jpg'
-import img6 from './assets/images/shampoo2.jpg'
-import img7 from './assets/images/brushset.jpg'
-import img8 from './assets/images/moisturizingcream.jpg'
+import img1 from '../frontend/src/assets/images/lipstick.jpg'
+import img2 from '../frontend/src/assets/images/lipstickset.jpg'
+import img3 from '../frontend/src/assets/images/eyeshadow1.jpg'
+import img4 from '../frontend/src/assets/images/antiage.jpg'
+import img5 from '../frontend/src/assets/images/shampoo.jpg'
+import img6 from '../frontend/src/assets/images/shampoo2.jpg'
+import img7 from '../frontend/src/assets/images/brushset.jpg'
+import img8 from '../frontend/src/assets/images/moisturizingcream.jpg'
 
 
 const products = [

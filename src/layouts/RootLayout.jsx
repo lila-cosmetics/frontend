@@ -11,13 +11,13 @@ function RootLayout() {
       </header>
 
       <main>
+      <section>
+        <Outlet />
+      </section>
         <section>
           <Products />
         </section>
       </main>
-      <section>
-        <Outlet />
-      </section>
 
       <footer>
         <Footer />
