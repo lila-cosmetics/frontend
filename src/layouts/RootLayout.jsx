@@ -1,9 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Products from "../components/Products";
 import Footer from "../components/Footer";
+import Rating from "../components/Rating";
 
 function RootLayout() {
+  const location = useLocation();
   return (
     <div>
       <header>
@@ -11,12 +13,17 @@ function RootLayout() {
       </header>
 
       <main>
-      <section>
-        <Outlet />
-      </section>
         <section>
-          <Products />
+          <Outlet />
         </section>
+
+        {/* conditionally rendering the product component 
+        if we are in the root, render all products */}
+        {location.pathname === "/" && (
+          <section>
+            <Products />
+          </section>
+        )}
       </main>
 
       <footer>
