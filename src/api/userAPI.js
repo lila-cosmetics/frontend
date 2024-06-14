@@ -8,6 +8,9 @@ const baseUrl =
     ? "http://localhost:3001/api"
     : import.meta.env.VITE_REACT_APP_BASE_URL;
 
+
+
+
 /**
  * Creating axios default base URL
  */

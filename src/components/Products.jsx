@@ -32,7 +32,7 @@ function Products() {
   }
 
   return (
-    <div className='flex flex-wrap justify-center mx-auto w-2/3 gap-5 mt-20 mb-36'>
+    <div className='flex flex-wrap justify-center mx-auto w-full gap-5 mt-20 mb-36 '>
       {products.map((product) => {
         // Check if the price needs conversion
         let price = product.price;
