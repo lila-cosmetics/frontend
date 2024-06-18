@@ -19,11 +19,12 @@ function RootLayout() {
 
         {/* conditionally rendering the product component 
         if we are in the root, render all products */}
-        {location.pathname === "/" && (
+
+         {location.pathname === "/" && (
           <section>
             <Products />
           </section>
-        )}
+        )} 
       </main>
 
       <footer>
