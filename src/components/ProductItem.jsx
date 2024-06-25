@@ -2,11 +2,16 @@ import { useParams, Link } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../slices/productApiSlice";
 
 function ProductItem() {
- 
-  const {data:products, isLoading, error}= useGetProductDetailsQuery()
-
-
-
+  const { id: productId } = useParams();
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useGetProductDetailsQuery(productId);
+  console.log('products:', products, 'isLoading:', isLoading, 'error:', error);
+  console.log('Product ID:', productId);
+  console.log('API Endpoint:', `/api/products/${productId}`);
+  
   return (
     <div className="flex flex-col gap-5 mt-20 ml-48 mb-52">
       <div>
@@ -14,7 +19,15 @@ function ProductItem() {
           Go Back
         </Link>
       </div>
-      <div className="flex gap-10">
+
+
+      {isLoading ? (
+        <h2>Loading ... </h2>
+      ): error ? (
+        <div>
+          {error?.data?.message || error.error}
+          </div>
+      ) : ( <div className="flex gap-10">
         <img
           src={products.image}
           alt={products.name}
@@ -23,13 +36,14 @@ function ProductItem() {
         <div className="flex flex-col gap-10">
           <h2>{products.name}</h2>
           <p>{products.description}</p>
-        
+
           <span>{products.price} €</span>
           <div>
             <button className="border p-3 bg-slate-100">Add to Cart</button>
           </div>
         </div>
-      </div>
+      </div>)}
+     
     </div>
   );
 }

@@ -11,7 +11,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     
     getProductDetails: builder.query({
-      query: (productId) => `${PRODUCTS_URL}/${productId}`,
+      query: (productId) => `${PRODUCTS_URL}/getProductById/${productId}`,
       providesTags: ["Product"],
     }),
     keepUnusedDataFor: 5,
@@ -24,6 +24,10 @@ console.log(productApiSlice);
 // Export the generated hook
 export const { useGetProductsQuery } = productApiSlice;
 export const {useGetProductDetailsQuery}= productApiSlice
+// this is the convention useGet + name of the query + Query
+
+
+
 
 /* import { PRODUCTS_URL } from "../api/apiConstants";
 import { apiSlice } from "./apiSclice";
