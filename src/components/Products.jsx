@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating } from 'flowbite-react';
+import Loader from '../components/Loader'
 import { useGetProductsQuery } from '../slices/productApiSlice'; // Correct import
 
 function Products() {
@@ -10,7 +11,7 @@ function Products() {
   return (
     <>
       {isLoading ? (
-        <h2>Loading...</h2>
+ <Loader/>
       ) : error ? (
         <div>{error?.data?.message || error.error}</div>
       ) : (

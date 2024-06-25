@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import Loader from "../components/Loader";
 import { useGetProductDetailsQuery } from "../slices/productApiSlice";
 
 function ProductItem() {
@@ -22,7 +23,7 @@ function ProductItem() {
 
 
       {isLoading ? (
-        <h2>Loading ... </h2>
+        <Loader/>
       ): error ? (
         <div>
           {error?.data?.message || error.error}
