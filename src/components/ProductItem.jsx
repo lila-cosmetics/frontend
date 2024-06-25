@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import Loader from "../components/Loader";
+import Message from "./Message";
 import { useGetProductDetailsQuery } from "../slices/productApiSlice";
 
 function ProductItem() {
@@ -25,9 +26,7 @@ function ProductItem() {
       {isLoading ? (
         <Loader/>
       ): error ? (
-        <div>
-          {error?.data?.message || error.error}
-          </div>
+        <Message>{error?.data?.message || error.error}</Message>
       ) : ( <div className="flex gap-10">
         <img
           src={products.image}
