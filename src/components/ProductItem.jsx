@@ -1,4 +1,4 @@
-import { Label, Select } from "flowbite-react";
+import { Label, Select, Button } from "flowbite-react";
 import { useParams, Link ,useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Loader from "../components/Loader";
@@ -69,7 +69,8 @@ function ProductItem() {
                 </Select>
               </div>
             ):(
-              <p>Out of stock</p>
+              <Button disabled gradientMonochrome="purple">Out of stock</Button>
+         
             )}
 
             <span>{products.price} €</span>
