@@ -58,7 +58,7 @@ function ProductItem() {
                 />
                 <Select id="countInStock" required
                        defaultValue={1}
-                       onChange={(e)=>setQty(e.target.value)}>
+                       onChange={(e)=>setQty(Number(e.target.value))}>
                   {/* show maximum 10 count is stock
                 If products.availableQuantity is less than 10, it uses products.availableQuantity. Otherwise, it uses 10. */}
                   {[
