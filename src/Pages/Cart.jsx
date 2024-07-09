@@ -23,6 +23,11 @@ function Cart() {
     dispatch(removeFromCart(id)); // here we just passed in the id of product
   };
 
+  const checkOutHandler = ()=> {
+    //if it is logged in redirect to shipping page
+    navigate('/login?redirect=/shipping')
+  }
+
   return (
     <>
       <div>
