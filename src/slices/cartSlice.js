@@ -16,6 +16,7 @@ const cartSlice = createSlice({
   initialState,
   //current state of the cart , action:any data inside of payload
   reducers: {
+    //any functions that have to do with the cart(add to cart/remove..)
     addToCart: (state, action) => {
       const item = action.payload;
       const existItem = state.cartItems.find((x) => x._id === item._id);
@@ -50,8 +51,35 @@ const cartSlice = createSlice({
 
       localStorage.setItem("cart", JSON.stringify(state));
     },
-  }, //any functions that have to do with the cart(add to cart/remove..)
+    removeFromCart:(state, action)=>{ 
+     
+      //the id that we are passing to this removeFromCart function is in action's payload
+      state.cartItems = state.cartItems.filter((x)=> x._id !== action.payload) 
+      //we return all the cart items that don't equal the one we want to delete
+
+      // Recalculate prices after removing the item
+      state.itemsPrice = addDecimals(
+        state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+      );
+
+      // Calculating shipping price
+      state.shippingPrice = addDecimals(state.itemsPrice > 20 ? 0 : 3);
+
+      // Calculating tax price
+      state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
+
+      // Calculating total price
+      state.totalPrice = (
+        Number(state.itemsPrice) +
+        Number(state.shippingPrice) +
+        Number(state.taxPrice)
+      ).toFixed(2);
+
+      localStorage.setItem("cart", JSON.stringify(state));
+
+    }
+  }, 
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;

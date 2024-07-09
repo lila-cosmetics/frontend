@@ -5,7 +5,7 @@ import { Label, Select, Button } from "flowbite-react";
 
 import { FaTrashAlt } from "react-icons/fa";
 import Message from "../components/Message";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, removeFromCart } from "../slices/cartSlice";
 
 /* we have our items in our local storage and redux state so with useSelector we get items*/
 
@@ -15,9 +15,13 @@ function Cart() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-  const addToCartHandler = async(product, qty)=>{
-    dispatch(addToCart({...product, qty}))
-  }
+  const addToCartHandler = async (product, qty) => {
+    dispatch(addToCart({ ...product, qty })); //we passed in eintire product item
+  };
+
+  const removeFromCartHandler = async (id) => {
+    dispatch(removeFromCart(id)); // here we just passed in the id of product
+  };
 
   return (
     <>
@@ -59,7 +63,9 @@ function Cart() {
                         id={`countInStock-${item._id}`}
                         required
                         defaultValue={1}
-                        onChange={(e) => addToCartHandler(item, Number(e.target.value))}
+                        onChange={(e) =>
+                          addToCartHandler(item, Number(e.target.value))
+                        }
                         className="w-20"
                       >
                         {[
@@ -72,7 +78,11 @@ function Cart() {
                       </Select>
                     </div>
                   )}
-                  <Button outline gradientDuoTone="purpleToPink">
+                  <Button
+                    outline
+                    gradientDuoTone="purpleToPink"
+                    onClick={() => removeFromCartHandler(item._id)}
+                  >
                     <FaTrashAlt size={20} />
                   </Button>
                 </div>
@@ -87,13 +97,9 @@ function Cart() {
                     .toFixed(2)}
                 </div>
                 <div>
-                 
-                  <Button
-                    disabled={cartItems.length === 0}
-                   color="purple"
-                   pill
-                  >
-                   Proceed to Checkout
+                  <Button disabled={cartItems.length === 0} color="purple" pill
+                  onClick={checkOutHandler}>
+                    Proceed to Checkout
                   </Button>
                 </div>
               </div>
