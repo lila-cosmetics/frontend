@@ -5,10 +5,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 import "./App.css";
 /* import UserProvider from "@provider/UserProvider";
 import ProtectRoutes from "@auth/protectedRoutes/ProtectedRoutes"; */
 import Login from "../src/Pages/Login";
+import Register from "./Pages/Register";
 import RootLayout from './layouts/RootLayout'
 import Home from './Pages/Home'
 import Cart from './Pages/Cart'
@@ -20,6 +23,7 @@ const router = createBrowserRouter(
       <Route index element={<Home/>}/>
       <Route path="/cart" element={<Cart/>} />
       <Route path="/login" element={<Login/>} />
+      <Route path="/register" element={<Register/>}/>
       <Route path="/products/:id" element={<ProductItem />} />
     </Route>
   )
@@ -41,6 +45,7 @@ function App() {
 
     <>
       <RouterProvider router={router} />
+      <ToastContainer/>
     </>
   );
 }

@@ -1,8 +1,53 @@
-import { Link } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Label, TextInput, Tooltip } from "flowbite-react";
+import Loader from "../components/Loader";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  //if we want to check if redirect is in url(when user
+  //wants to checkout it redirects tp login)
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/"; //if there is a redirect
+
+  //to check to see if we are logged in:
+  //because if we are logged in we want to redirected to either / homepage or if there is sth to redirected
+
+  useEffect(() => {
+    if (userInfo) {
+      //if there is userinfo in local storage, navigate to whatever that redirect is
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate]);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      //login comming from api slice           //unwrap, extract values from promise
+      console.log('Login data:', { email, password });
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({...res,}))  //send res which is user info and pass it to setCredentials which set the local storage whatever the user is
+      navigate(redirect)
+    } catch (error) {
+      console.log('login failed', error)
+      toast.error(error?.data?.message || error.error)
+    }
+  };
+
   return (
     <div>
       {" "}
@@ -36,14 +81,15 @@ const Login = () => {
             <span>Don't have an account ?&nbsp;&nbsp;</span>
             <Tooltip content="Click here to navigate to register page">
               <Link
-                to="/register"
+                to={redirect ?`/register?redirect=${redirect}` : '/register'}
                 className="text-secondary-color underline font-bold"
               >
                 signup
               </Link>
             </Tooltip>
           </div>
-          <form className="space-y-6 w-full">
+          {/* form */}
+          <form onSubmit={submitHandler} className="space-y-6 w-full">
             <div>
               <Label
                 htmlFor="email"
@@ -54,6 +100,7 @@ const Login = () => {
                 id="email"
                 type="email"
                 name="email"
+                onChange={(e)=>setEmail(e.target.value)}
                 placeholder="Email Address *"
                 style={{
                   backgroundColor: "var(--bg-white-color)",
@@ -74,6 +121,7 @@ const Login = () => {
               <TextInput
                 id="password"
                 name="password"
+                onChange={(e)=>setPassword(e.target.value)}
                 placeholder="Your Password *"
                 style={{
                   backgroundColor: "var(--bg-white-color)",
@@ -119,6 +167,7 @@ const Login = () => {
             <Button type="submit" className="custom-button-style">
               Login
             </Button>
+            {isLoading && <Loader/>}
           </form>
         </div>
       </div>

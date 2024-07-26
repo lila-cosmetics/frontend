@@ -1,14 +1,35 @@
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux"; //for selecting from global state
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux"; //for selecting from global state
 import { FiShoppingCart } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { Badge } from "flowbite-react";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import {logout} from '../slices/authSlice'
+import { Badge, Dropdown } from "flowbite-react";
 
 function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
   console.log("this is the selected products", cartItems);
+
+
+  const {userInfo} = useSelector((state)=> state.auth)
+  console.log(userInfo)
+
   const totalItems= cartItems.reduce((a, c) => a + c.qty, 0)
   console.log(totalItems)
+
+  const dispatch= useDispatch()
+  const navigate= useNavigate()
+
+  const [logoutApiCall]= useLoginMutation()
+  const logoutHandler= async()=>{
+    try {
+      await logoutApiCall().unwrap()
+      dispatch(logout())
+      navigate('/login')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <nav>
       <div className="flex justify-between bg-slate-100 p-10 text-xl">
@@ -28,12 +49,17 @@ function Navbar() {
               </Badge>
             )}
           </Link>
-
-          <Link to="/login" className="flex items-center gap-1">
+{userInfo ? (
+  <Dropdown label={`welcome ${userInfo.email}`} style={{backgroundColor:'#CABFFD', color:'#424242', border:'none'}}>
+    <Dropdown.Item as={Link} to="/profile" className="text-gray-600 hover:bg-gray-200">Profile</Dropdown.Item>
+    <Dropdown.Item as={Link} to="/login" onClick={logoutHandler} className="text-gray-600 hover:bg-gray-200">Log out</Dropdown.Item>
+  </Dropdown>
+) : (<Link to="/login" className="flex items-center gap-1">
             {" "}
             <MdOutlineAccountCircle size={24} />
             Login
-          </Link>
+          </Link>)}
+          
         </div>
       </div>
     </nav>
