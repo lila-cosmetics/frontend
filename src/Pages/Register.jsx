@@ -45,8 +45,8 @@ const Register = () => {
     } else {
       try {
         //login comming from api slice           //unwrap, extract values from promise
-        console.log("Login data:", { name, email, password });
-        const res = await register({ name, email, password }).unwrap();
+        console.log("Login data:", { firstName, lastName, email, password,confirmPassword });
+        const res = await register({ firstName, lastName, email, password, confirmPassword }).unwrap();
         dispatch(setCredentials({ ...res })); //send res which is user info and pass it to setCredentials which set the local storage whatever the user is
         navigate(redirect);
       } catch (error) {
@@ -211,10 +211,23 @@ const Register = () => {
               <span>We will remember you until you logout!</span>
             </div>
 
-            <Button type="submit" className="custom-button-style bg-purple-500">
+            <Button type="submit" disabled={isLoading} className="custom-button-style bg-purple-500">
               Sign up
             </Button>
             {isLoading && <Loader />}
+
+
+            <div className="flex items-center">
+            <span>Already have an account ?&nbsp;&nbsp;</span>
+            <Tooltip content="Click here to navigate to register page">
+              <Link
+                to={redirect ?`/login?redirect=${redirect}` : '/login'}
+                className="text-secondary-color underline font-bold"
+              >
+                Login
+              </Link>
+            </Tooltip>
+          </div>
           </form>
         </div>
       </div>
