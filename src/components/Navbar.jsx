@@ -12,10 +12,8 @@ function Navbar() {
   const { cartItems } = useSelector((state) => state.cart);
   console.log("this is the selected products", cartItems);
 
-
-  const {userInfo} = useSelector((state)=> state.auth)
-  console.log('this is the user info',userInfo)
-  console.log('this is user name')
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log('User info in Navbar:', userInfo);
 
   const totalItems= cartItems.reduce((a, c) => a + c.qty, 0)
   console.log(totalItems)
@@ -44,6 +42,12 @@ function Navbar() {
     }
   };
 
+
+  const toUpperCaseHelper=(str)=>{
+    if(!str) return str
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+
   return (
     <nav>
       <div className="flex justify-between bg-slate-100 p-10 text-xl">
@@ -64,7 +68,7 @@ function Navbar() {
             )}
           </Link>
 {userInfo ? (
-  <Dropdown label={`welcome `} style={{backgroundColor:'#CABFFD', color:'#424242', border:'none'}}>
+  <Dropdown label={`welcome ${toUpperCaseHelper(userInfo.user_info.firstName)} ${toUpperCaseHelper(userInfo.user_info.lastName)} `} style={{backgroundColor:'#CABFFD', color:'#424242', border:'none'}}>
     <Dropdown.Item as={Link} to="/profile" className="text-gray-600 hover:bg-gray-200">Profile</Dropdown.Item>
     <Dropdown.Item as={Link} to="/login" onClick={logoutHandler} className="text-gray-600 hover:bg-gray-200">Log out</Dropdown.Item>
   </Dropdown>

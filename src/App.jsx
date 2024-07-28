@@ -16,6 +16,7 @@ import RootLayout from './layouts/RootLayout'
 import Home from './Pages/Home'
 import Cart from './Pages/Cart'
 import ProductItem from './components/ProductItem'
+import Navbar from "./components/Navbar";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +47,7 @@ function App() {
     <>
       <RouterProvider router={router} />
       <ToastContainer/>
+
     </>
   );
 }

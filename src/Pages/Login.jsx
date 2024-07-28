@@ -17,6 +17,7 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
+  console.log('this is userInfo in login',userInfo)
 
   //if we want to check if redirect is in url(when user
   //wants to checkout it redirects tp login)
@@ -38,13 +39,13 @@ const Login = () => {
     e.preventDefault();
     try {
       //login comming from api slice           //unwrap, extract values from promise
-      console.log('Login data:', { email, password });
+      console.log("Login data:", { email, password });
       const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({...res,}))  //send res which is user info and pass it to setCredentials which set the local storage whatever the user is
-      navigate(redirect)
+      dispatch(setCredentials({ ...res })); //send res which is user info and pass it to setCredentials which set the local storage whatever the user is
+      navigate(redirect);
     } catch (error) {
-      console.log('login failed', error)
-      toast.error(error?.data?.message || error.error)
+      console.log("login failed", error);
+      toast.error(error?.data?.message || error.error);
     }
   };
 
@@ -81,7 +82,7 @@ const Login = () => {
             <span>Don't have an account ?&nbsp;&nbsp;</span>
             <Tooltip content="Click here to navigate to register page">
               <Link
-                to={redirect ?`/register?redirect=${redirect}` : '/register'}
+                to={redirect ? `/register?redirect=${redirect}` : "/register"}
                 className="text-secondary-color underline font-bold"
               >
                 signup
@@ -100,7 +101,7 @@ const Login = () => {
                 id="email"
                 type="email"
                 name="email"
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email Address *"
                 style={{
                   backgroundColor: "var(--bg-white-color)",
@@ -121,7 +122,7 @@ const Login = () => {
               <TextInput
                 id="password"
                 name="password"
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Your Password *"
                 style={{
                   backgroundColor: "var(--bg-white-color)",
@@ -167,7 +168,7 @@ const Login = () => {
             <Button type="submit" className="custom-button-style">
               Login
             </Button>
-            {isLoading && <Loader/>}
+            {isLoading && <Loader />}
           </form>
         </div>
       </div>

@@ -2,6 +2,8 @@
 import { apiSlice } from "./apiSclice"; 
 import { USERS_URL } from "../api/apiConstants";
 
+//this file is responsible for making api calls related to user actions such as
+//login, logout and register but it does not store the userInfo directly
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
