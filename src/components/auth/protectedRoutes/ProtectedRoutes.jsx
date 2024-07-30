@@ -1,6 +1,5 @@
-import { Outlet, Navigate } from "react-router-dom";
-import useUserContext from "../../../hooks/useUserContext";
-
+import { Outlet, Navigate } from "react-router-dom"; //Outlet is what we want to return if we are logged in
+import { useSelector } from "react-redux"; // is how we find out if there is a user info piece of state
 /**
  * Component for handling protected routes
  *  If user is logged in, it renders the nested routes (Outlet),
@@ -8,10 +7,9 @@ import useUserContext from "../../../hooks/useUserContext";
  * @returns
  */
 const ProtectRoutes = () => {
-  // Access the loginin state from the user context
-  const { loggedIn } = useUserContext();
+   const {userInfo}= useSelector(state=> state.auth)
 
-  return loggedIn ? <Outlet /> : <Navigate to="/user-login" />;
+  return userInfo ? <Outlet/> : <Navigate to='/login' replace />
 };
 
 export default ProtectRoutes;

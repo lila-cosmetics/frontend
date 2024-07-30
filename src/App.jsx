@@ -6,28 +6,30 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 /* import UserProvider from "@provider/UserProvider";
 import ProtectRoutes from "@auth/protectedRoutes/ProtectedRoutes"; */
 import Login from "../src/Pages/Login";
 import Register from "./Pages/Register";
-import RootLayout from './layouts/RootLayout'
-import Home from './Pages/Home'
-import Cart from './Pages/Cart'
-import ProductItem from './components/ProductItem'
-import Navbar from "./components/Navbar";
+import RootLayout from "./layouts/RootLayout";
+import Home from "./Pages/Home";
+import Cart from "./Pages/Cart";
+import ProductItem from "./components/ProductItem";
 import Shipping from "./Pages/Shipping";
+import ProtectRoutes from "./components/auth/protectedRoutes/ProtectedRoutes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout/>} >
-      <Route index element={<Home/>}/>
-      <Route path="/cart" element={<Cart/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/register" element={<Register/>}/>
+    <Route path="/" element={<RootLayout />}>
+      <Route index element={<Home />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/products/:id" element={<ProductItem />} />
-      <Route path="/shipping" element={<Shipping />} />
+      <Route path="" element={<ProtectRoutes />}>
+        <Route path="/shipping" element={<Shipping />} />
+      </Route>
     </Route>
   )
 );
@@ -46,10 +48,9 @@ function App() {
     /*      </Routes> */
     /*     </UserProvider>  */
 
-    <div className="app-container" >
+    <div className="app-container">
       <RouterProvider router={router} />
-      <ToastContainer/>
-
+      <ToastContainer />
     </div>
   );
 }
