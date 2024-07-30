@@ -17,6 +17,7 @@ import Home from './Pages/Home'
 import Cart from './Pages/Cart'
 import ProductItem from './components/ProductItem'
 import Navbar from "./components/Navbar";
+import Shipping from "./Pages/Shipping";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>}/>
       <Route path="/products/:id" element={<ProductItem />} />
+      <Route path="/shipping" element={<Shipping />} />
     </Route>
   )
 );
