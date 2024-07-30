@@ -25,12 +25,13 @@ a {
   text-decoration: none;
 }
 
+
 .app-container {
 
   min-height: 100vh;
   /* insure that it covers the entire viewport height 
         Sets the minimum height of an element to 100% of the viewport height.*/
 
-  background-color: #f0eaf6;
+  background-color: #e6e5e6;
 
 }
