@@ -67,8 +67,15 @@ function Navbar() {
               </Badge>
             )}
           </Link>
-{userInfo ? (
-  <Dropdown label={`welcome ${toUpperCaseHelper(userInfo.user_info.firstName)} ${toUpperCaseHelper(userInfo.user_info.lastName)} `} style={{backgroundColor:'#CABFFD', color:'#424242', border:'none'}}>
+{userInfo && (userInfo.newUser || userInfo.user_info) ? (
+            <Dropdown
+              label={`Welcome ${
+                userInfo.newUser
+                  ? `${toUpperCaseHelper(userInfo.newUser.firstName)} ${toUpperCaseHelper(userInfo.newUser.lastName)}`
+                  : `${toUpperCaseHelper(userInfo.user_info.firstName)} ${toUpperCaseHelper(userInfo.user_info.lastName)}`
+              }`}
+              style={{ backgroundColor: '#CABFFD', color: '#424242', border: 'none' }}
+            >
     <Dropdown.Item as={Link} to="/profile" className="text-gray-600 hover:bg-gray-200">Profile</Dropdown.Item>
     <Dropdown.Item as={Link} to="/login" onClick={logoutHandler} className="text-gray-600 hover:bg-gray-200">Log out</Dropdown.Item>
   </Dropdown>
