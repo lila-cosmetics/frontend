@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { updateCart } from "../utils/cartUtils";
 
 const initialState = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
-  : { cartItems: [] };
+  : { cartItems: [], shippingAddress:{}, paymentMethod:'paypal' }; //by default is paypal
 /* This line defines the initial state for the cart. It checks if there is an existing cart stored in the browser's localStorage. If there is, it parses the JSON string into an object and uses it as the initial state.
 If no cart is found in localStorage, it sets the initial state to an object with an empty cartSlice array. */
 
@@ -28,62 +29,28 @@ const cartSlice = createSlice({
       } else {
         state.cartItems = [...state.cartItems, item];
       }
-
-      //calculating item price
-      state.itemsPrice = addDecimals(
-        state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-      );
-
-      //calculating shipping price (if order is over 20€ then free, else 3€)
-      state.shippingPrice = addDecimals(state.itemsPrice > 20 ? 0 : 3);
-
-      //tax price (%15)
-      state.taxPrice = addDecimals(
-        Number((0.15 * state.itemsPrice).toFixed(2))
-      );
-
-      //calculate total price
-      state.totalPrice = (
-        Number(state.itemsPrice) +
-        Number(state.shippingPrice) +
-        Number(state.taxPrice)
-      ).toFixed(2);
-
-      localStorage.setItem("cart", JSON.stringify(state));
+      return updateCart(state)
+      
     },
     removeFromCart:(state, action)=>{ 
      
       //the id that we are passing to this removeFromCart function is in action's payload
       state.cartItems = state.cartItems.filter((x)=> x._id !== action.payload) 
       //we return all the cart items that don't equal the one we want to delete
-
-      // Recalculate prices after removing the item
-      state.itemsPrice = addDecimals(
-        state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-      );
-
-      // Calculating shipping price
-      state.shippingPrice = addDecimals(state.itemsPrice > 20 ? 0 : 3);
-
-      // Calculating tax price
-      state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
-
-      // Calculating total price
-      state.totalPrice = (
-        Number(state.itemsPrice) +
-        Number(state.shippingPrice) +
-        Number(state.taxPrice)
-      ).toFixed(2);
-
-      localStorage.setItem("cart", JSON.stringify(state));
+    return updateCart(state)
 
     },
     clearCart:(state)=>{
       state.cartItems=[]
+    },
+
+    saveShippingAddress: (state, action)=>{
+      state.shippingAddress = action.payload
+      return updateCart(state)
     }
 
   }, 
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, saveShippingAddress } = cartSlice.actions;
 export default cartSlice.reducer;
