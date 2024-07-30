@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"; //since we need redirect
 import { saveShippingAddress } from "../slices/cartSlice";
 import { Button, Label, TextInput } from "flowbite-react";
+import Checkout from "../components/Checkout";
 
 
 function Shipping() {
@@ -25,7 +26,9 @@ function Shipping() {
 
   return (
     <div className="flex flex-col items-center justify-center m-20">
-      <div className="w-full max-w-md p-5 bg-white rounded-lg shadow-md">
+
+      <div className="w-full max-w-lg p-5 bg-white rounded-lg shadow-md">
+        <Checkout step1 step2 />
         <h2 className="text-center mb-10">Shipping Address</h2>
         <form className="flex  flex-col gap-4" onSubmit={submitHandler}>
           <div>
@@ -94,7 +97,7 @@ function Shipping() {
 
 
 
-          <Button type="submit" className="bg-primary hover:bg-gray-200" >Continue</Button>
+          <Button type="submit" outline style={{backgroundColor: '#765AA7'}}>Continue</Button>
 
         </form>
       </div>
