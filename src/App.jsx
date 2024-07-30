@@ -46,11 +46,11 @@ function App() {
     /*      </Routes> */
     /*     </UserProvider>  */
 
-    <>
+    <div className="app-container" >
       <RouterProvider router={router} />
       <ToastContainer/>
 
-    </>
+    </div>
   );
 }
 

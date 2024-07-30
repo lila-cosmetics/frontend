@@ -1,0 +1,36 @@
+body,
+html,
+#root {
+  height: 100%;
+  overflow-x: hidden;
+  /* Prevent Horizontal Scrolling: */
+  /* Prevent horizontal overflow */
+  scroll-behavior: smooth;
+  line-height: 1.5;
+}
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.app-container {
+
+  min-height: 100vh;
+  /* insure that it covers the entire viewport height 
+        Sets the minimum height of an element to 100% of the viewport height.*/
+
+  background-color: #f0eaf6;
+
+}
